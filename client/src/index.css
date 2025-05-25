@@ -4,23 +4,29 @@
 
 @layer base {
   :root {
-    --color-primary: #3b82f6;
-    --color-primary-light: #60a5fa;
-    --color-primary-dark: #2563eb;
+    --color-primary: #e88247;
+    --color-primary-light: #f0956b;
+    --color-primary-dark: #d6722a;
     --color-background: #ffffff;
-    --color-background-secondary: #f3f4f6;
+    --color-background-secondary: #f9fafb;
     --color-text: #1f2937;
     --color-text-secondary: #4b5563;
+    --color-accent: #e88247;
+    --color-accent-light: #f0956b;
+    --color-accent-dark: #d6722a;
   }
 
   .dark {
-    --color-primary: #60a5fa;
-    --color-primary-light: #93c5fd;
-    --color-primary-dark: #3b82f6;
+    --color-primary: #f0956b;
+    --color-primary-light: #f5a87a;
+    --color-primary-dark: #e88247;
     --color-background: #111827;
     --color-background-secondary: #1f2937;
     --color-text: #f9fafb;
     --color-text-secondary: #d1d5db;
+    --color-accent: #f0956b;
+    --color-accent-light: #f5a87a;
+    --color-accent-dark: #e88247;
   }
 }
 
@@ -31,4 +37,156 @@ body {
 
 * {
   transition: background-color 0.2s, color 0.2s;
+}
+
+@layer utilities {
+  .animate-modal-in {
+    animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .animate-modal-out {
+    animation: modalOut 0.2s cubic-bezier(0.4, 0, 1, 1);
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+  
+  .animate-fade-out {
+    animation: fadeOut 0.2s ease-in;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .animate-shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translateX(-1px);
+  }
+  20%, 80% {
+    transform: translateX(2px);
+  }
+  30%, 50%, 70% {
+    transform: translateX(-4px);
+  }
+  40%, 60% {
+    transform: translateX(4px);
+  }
+}
+
+.btn-gradient {
+  background: linear-gradient(135deg, var(--tw-gradient-stops));
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn-gradient:hover::before {
+  left: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text);
+}
+
+.input-focus {
+  @apply transition-all duration-200 ease-out;
+}
+
+.input-focus:focus {
+  @apply transform scale-[1.02];
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
