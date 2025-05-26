@@ -1,8 +1,8 @@
 import React from 'react';
-import { useTheme } from '../../context/ThemeContext';
-import SortableHeader from '../SortableHeader';
-import VehicleTableRow from './VehicleTableRow';
-import type { Vehicle } from '../../types';
+import { useTheme } from '../../../context/ThemeContext';
+import SortableHeader from '../../SortableHeader';
+import VehicleTableRow from '../VehicleTableRow';
+import type { Vehicle } from '../../../types';
 
 interface VehicleTableProps {
   vehicles: Vehicle[];
@@ -89,4 +89,4 @@ const VehicleTable: React.FC<VehicleTableProps> = ({
   );
 };
 
-export default VehicleTable;
+export default VehicleTable; 
