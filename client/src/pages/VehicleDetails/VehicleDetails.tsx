@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useVehicle, useDeleteVehicle } from '../hooks/useVehicles';
-import { useTheme } from '../context/ThemeContext';
-import { useUIStore, useModalState, useToastState } from '../store';
-import { EditVehicleModal, ConfirmationModal } from '../components/Modals';
-import Toast from '../components/Toast';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { useVehicle, useDeleteVehicle } from '../../hooks/useVehicles';
+import { useTheme } from '../../context/ThemeContext';
+import { useUIStore, useModalState, useToastState } from '../../store';
+import { EditVehicleModal, ConfirmationModal } from '../../components/Modals';
+import Toast from '../../components/Toast';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import {
   VehicleDetailsHeader,
   VehicleInfoTab,
@@ -13,9 +13,9 @@ import {
   LocationTab,
   AnalyticsTab,
   VehicleDetailsTabs,
-} from '../components/VehicleDetails';
-import Button from '../components/Button.tsx';
-import BackArrowIcon from '../components/Icons/BackArrowIcon.tsx';
+} from '../../components/VehicleDetails';
+import Button from '../../components/Button.tsx';
+import BackArrowIcon from '../../components/Icons/BackArrowIcon.tsx';
 
 const VehicleDetails = () => {
   const { id } = useParams<{ id: string }>();
