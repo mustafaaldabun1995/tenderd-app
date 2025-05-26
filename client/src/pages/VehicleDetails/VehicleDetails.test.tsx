@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { render } from '../../test/test-utils';
 import VehicleDetails from './VehicleDetails';
 import { useVehicle, useDeleteVehicle } from '../../hooks/useVehicles';
-import { useUIStore, useModalState, useToastState } from '../../store';
+import { useUIStore } from '../../store';
 import type { Vehicle } from '../../types';
 
 vi.mock('../../hooks/useVehicles');
@@ -101,34 +101,13 @@ const mockVehicle2: Vehicle = {
 const mockUIStore = {
   activeTab: 'info',
   setActiveTab: vi.fn(),
-  openEditModal: vi.fn(),
-  closeEditModal: vi.fn(),
-  openDeleteDialog: vi.fn(),
-  closeDeleteDialog: vi.fn(),
-  showToast: vi.fn(),
-  hideToast: vi.fn(),
   setLastViewedVehicle: vi.fn(),
-};
-
-const mockModalState = {
-  isAddModalOpen: false,
-  isEditModalOpen: false,
-  isDeleteDialogOpen: false,
-  selectedVehicleId: null,
-};
-
-const mockToastState = {
-  isVisible: false,
-  message: '',
-  type: 'success' as const,
 };
 
 describe('<VehicleDetails />', () => {
   const mockUseVehicle = vi.mocked(useVehicle);
   const mockUseDeleteVehicle = vi.mocked(useDeleteVehicle);
   const mockUseUIStore = vi.mocked(useUIStore);
-  const mockUseModalState = vi.mocked(useModalState);
-  const mockUseToastState = vi.mocked(useToastState);
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -139,8 +118,6 @@ describe('<VehicleDetails />', () => {
     } as any);
 
     mockUseUIStore.mockReturnValue(mockUIStore as any);
-    mockUseModalState.mockReturnValue(mockModalState);
-    mockUseToastState.mockReturnValue(mockToastState);
   });
 
   describe.each([

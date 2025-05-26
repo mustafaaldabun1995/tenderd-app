@@ -1,28 +1,30 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useVehicles, useDeleteVehicle } from './useVehicles';
-import { useUIStore, useModalState, useFilterState, useToastState } from '../store';
+import { useUIStore, useFilterState } from '../store';
+import type { ToastState } from '../types';
 
 export const useVehicleList = () => {
   const navigate = useNavigate();
   const { data: vehicles = [], isLoading } = useVehicles();
 
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedVehicleId, setSelectedVehicleId] = useState<number | null>(null);
+  const [toast, setToast] = useState<ToastState>({
+    message: '',
+    type: 'success',
+    isVisible: false,
+  });
+
   const {
-    openAddModal,
-    closeAddModal,
-    openEditModal,
-    closeEditModal,
-    openDeleteDialog,
-    closeDeleteDialog,
+    setLastViewedVehicle,
     setSearchQuery,
     toggleSort,
-    showToast,
-    hideToast,
-    setLastViewedVehicle,
   } = useUIStore();
 
-  const { isAddModalOpen, isEditModalOpen, isDeleteDialogOpen, selectedVehicleId } = useModalState();
   const { searchQuery, sortBy, sortDirection } = useFilterState();
-  const toast = useToastState();
   const deleteVehicleMutation = useDeleteVehicle();
 
   const selectedVehicle = selectedVehicleId ? vehicles.find(v => v.id === selectedVehicleId) : null;
@@ -47,6 +49,37 @@ export const useVehicleList = () => {
     }
     return aValue < bValue ? 1 : -1;
   });
+
+  const showToast = (message: string, type: ToastState['type']) => {
+    setToast({ message, type, isVisible: true });
+  };
+
+  const hideToast = () => {
+    setToast(prev => ({ ...prev, isVisible: false }));
+  };
+
+  const openAddModal = () => setIsAddModalOpen(true);
+  const closeAddModal = () => setIsAddModalOpen(false);
+  
+  const openEditModal = (vehicleId: number) => {
+    setSelectedVehicleId(vehicleId);
+    setIsEditModalOpen(true);
+  };
+  
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedVehicleId(null);
+  };
+  
+  const openDeleteDialog = (vehicleId: number) => {
+    setSelectedVehicleId(vehicleId);
+    setIsDeleteDialogOpen(true);
+  };
+  
+  const closeDeleteDialog = () => {
+    setIsDeleteDialogOpen(false);
+    setSelectedVehicleId(null);
+  };
 
   const handleModalSuccess = () => {
     showToast('🎉 Vehicle registered successfully!', 'success');

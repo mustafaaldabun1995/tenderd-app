@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useVehicle, useDeleteVehicle } from '../../hooks/useVehicles';
 import { useTheme } from '../../context/ThemeContext';
-import { useUIStore, useModalState, useToastState } from '../../store';
+import { useUIStore } from '../../store';
 import { EditVehicleModal, ConfirmationModal } from '../../components/Modals';
 import Toast from '../../components/Toast';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -16,26 +16,25 @@ import {
 } from '../../components/VehicleDetails';
 import Button from '../../components/Button.tsx';
 import BackArrowIcon from '../../components/Icons/BackArrowIcon.tsx';
+import type { ToastState } from '../../types';
 
 const VehicleDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { theme } = useTheme();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [toast, setToast] = useState<ToastState>({
+    message: '',
+    type: 'success',
+    isVisible: false,
+  });
 
   const {
     activeTab,
     setActiveTab,
-    openEditModal,
-    closeEditModal,
-    openDeleteDialog,
-    closeDeleteDialog,
-    showToast,
-    hideToast,
     setLastViewedVehicle,
   } = useUIStore();
-
-  const { isEditModalOpen, isDeleteDialogOpen } = useModalState();
-  const toast = useToastState();
 
   const vehicleId = id ? parseInt(id, 10) : 0;
   const deleteVehicleMutation = useDeleteVehicle();
@@ -46,6 +45,14 @@ const VehicleDetails = () => {
       setLastViewedVehicle(vehicleId);
     }
   }, [vehicleId, setLastViewedVehicle]);
+
+  const showToast = (message: string, type: ToastState['type']) => {
+    setToast({ message, type, isVisible: true });
+  };
+
+  const hideToast = () => {
+    setToast(prev => ({ ...prev, isVisible: false }));
+  };
 
   const handleEditSuccess = () => {
     showToast('🎉 Vehicle updated successfully!', 'success');
@@ -63,16 +70,16 @@ const VehicleDetails = () => {
     } catch {
       showToast('Failed to delete vehicle. Please try again.', 'error');
     } finally {
-      closeDeleteDialog();
+      setIsDeleteDialogOpen(false);
     }
   };
 
   const handleEdit = () => {
-    openEditModal(vehicle!.id);
+    setIsEditModalOpen(true);
   };
 
   const handleDeleteClick = () => {
-    openDeleteDialog(vehicle!.id);
+    setIsDeleteDialogOpen(true);
   };
 
   if (isLoading) {
@@ -134,7 +141,7 @@ const VehicleDetails = () => {
       {isEditModalOpen && (
         <EditVehicleModal
           isOpen={isEditModalOpen}
-          onClose={closeEditModal}
+          onClose={() => setIsEditModalOpen(false)}
           onSuccess={handleEditSuccess}
           vehicle={vehicle}
         />
@@ -142,7 +149,7 @@ const VehicleDetails = () => {
       {isDeleteDialogOpen && (
         <ConfirmationModal
           isOpen={isDeleteDialogOpen}
-          onClose={closeDeleteDialog}
+          onClose={() => setIsDeleteDialogOpen(false)}
           onConfirm={handleDelete}
           title="Delete Vehicle"
           message={`Are you sure you want to delete "${vehicle.model}" (${vehicle.registrationNumber})? This action cannot be undone and will remove all associated data including maintenance records.`}
