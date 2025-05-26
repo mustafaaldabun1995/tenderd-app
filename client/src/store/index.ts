@@ -1,6 +1,6 @@
 export { 
   useUIStore, 
   useFilterState, 
-} from './zustandStore';
+} from './zustand/zustandStore';
 
 export type { ToastState, FilterState, VehicleTab } from '../types'; 

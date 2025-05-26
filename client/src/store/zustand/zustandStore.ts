@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import type { FilterState, VehicleTab } from '../types';
+import type { FilterState, VehicleTab } from '../../types';
 
 interface UIState {
   filterState: FilterState;
