@@ -175,8 +175,6 @@ describe('<VehicleTableRow />', () => {
       </table>
     );
 
-    screen.debug();
-
     expect(screen.getByTestId('edit-icon')).toBeInTheDocument();
     expect(screen.getByTestId('delete-icon')).toBeInTheDocument();
   });
