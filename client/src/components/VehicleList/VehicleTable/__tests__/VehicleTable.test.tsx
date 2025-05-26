@@ -13,7 +13,7 @@ vi.mock('../../../SortableHeader', () => ({
   default: ({ label }: { label: string }) => <th>{label}</th>,
 }));
 
-vi.mock('../../VehicleTableRow', () => ({
+vi.mock('../../VehicleTableRow/VehicleTableRow', () => ({
   default: ({ vehicle, onVehicleClick }: { vehicle: Vehicle; onVehicleClick: (id: number) => void }) => (
     <tr data-testid={`vehicle-row-${vehicle.id}`}>
       <td>{vehicle.model}</td>

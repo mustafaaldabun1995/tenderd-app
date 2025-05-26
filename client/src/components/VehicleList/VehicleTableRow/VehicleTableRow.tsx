@@ -1,8 +1,8 @@
 import React from 'react';
-import { useTheme } from '../../context/ThemeContext';
-import Button from '../Button';
-import { EditIcon, DeleteIcon } from '../Icons';
-import type { Vehicle } from '../../types';
+import { useTheme } from '../../../context/ThemeContext';
+import Button from '../../Button';
+import { EditIcon, DeleteIcon } from '../../Icons';
+import type { Vehicle } from '../../../types';
 
 interface VehicleTableRowProps {
   vehicle: Vehicle;

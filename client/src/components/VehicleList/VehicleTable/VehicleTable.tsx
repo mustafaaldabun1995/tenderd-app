@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../../../context/ThemeContext';
 import SortableHeader from '../../SortableHeader';
-import VehicleTableRow from '../VehicleTableRow';
+import VehicleTableRow from '../VehicleTableRow/VehicleTableRow';
 import type { Vehicle } from '../../../types';
 
 interface VehicleTableProps {
